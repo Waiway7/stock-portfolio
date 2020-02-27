@@ -1,0 +1,65 @@
+# This file is auto-generated from the current state of the database. Instead
+# of editing this file, please use the migrations feature of Active Record to
+# incrementally modify your database, and then regenerate this schema definition.
+#
+# Note that this schema.rb definition is the authoritative source for your
+# database schema. If you need to create the application database on another
+# system, you should be using db:schema:load, not running all the migrations
+# from scratch. The latter is a flawed and unsustainable approach (the more migrations
+# you'll amass, the slower it'll run and the greater likelihood for issues).
+#
+# It's strongly recommended that you check this file into your version control system.
+
+ActiveRecord::Schema.define(version: 2020_02_27_050924) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "stocks", force: :cascade do |t|
+    t.string "ticker", null: false
+    t.string "company", null: false
+    t.float "total_price", null: false
+    t.integer "shares", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company"], name: "index_stocks_on_company"
+    t.index ["shares"], name: "index_stocks_on_shares"
+    t.index ["ticker"], name: "index_stocks_on_ticker"
+    t.index ["total_price"], name: "index_stocks_on_total_price"
+    t.index ["user_id"], name: "index_stocks_on_user_id"
+  end
+
+  create_table "transactions", force: :cascade do |t|
+    t.string "ticker", null: false
+    t.string "company", null: false
+    t.string "action", null: false
+    t.float "price", null: false
+    t.integer "amount", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["amount"], name: "index_transactions_on_amount"
+    t.index ["company"], name: "index_transactions_on_company"
+    t.index ["price"], name: "index_transactions_on_price"
+    t.index ["ticker"], name: "index_transactions_on_ticker"
+    t.index ["user_id"], name: "index_transactions_on_user_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "username", null: false
+    t.string "email", null: false
+    t.string "password_digest", null: false
+    t.string "session_token", null: false
+    t.float "equity", default: 0.0
+    t.float "balance", default: 5000.0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["balance"], name: "index_users_on_balance"
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["equity"], name: "index_users_on_equity"
+    t.index ["session_token"], name: "index_users_on_session_token", unique: true
+    t.index ["username"], name: "index_users_on_username", unique: true
+  end
+
+end

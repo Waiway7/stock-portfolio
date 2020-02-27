@@ -1,0 +1,149 @@
+.ticker-container {
+    min-height: 57.5%;
+    width: 100%;
+    margin: 0 auto;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: #fcf5f6;
+    padding-top: 20px;
+}
+
+.ticker-form-container {
+    margin: 0 auto;
+    height: 70px;
+    width: 400px;
+    background-color: white;
+    border: 1px solid #fae1e5;
+    border-radius: 4px;
+    text-align: center;
+    padding: 22px 108px 26px 108px;
+}
+
+.submit-tickers {
+    width: 150px;
+    padding: 5px 5px 5px 5px;
+    margin-left: 10px;
+    height: 32px;
+    font-size: 18px;
+    border: none;
+    border:solid 1px #ccc;
+    border-radius: 2px;
+    cursor: pointer;
+    background-color: #ee9ca7;
+    color: white;
+    font-weight: 500;
+}
+
+.ticker-text-input {
+    width: 200px;
+    height: 20px;
+    padding: 5px 5px 5px 5px;
+    font-size: 18px;
+    border: none;
+    border:solid 1px #ccc;
+    border-radius: 2px;
+}
+
+.search-for-quote {
+    padding: 0 0 15px 0;
+    font-size: 24px;
+}
+
+.ticker-info-container {
+    margin: 0 auto;
+    margin-top: 20px;
+    height: 180px;
+    width: 400px;
+    background-color: white;
+    border: 1px solid #fae1e5;
+    border-radius: 4px;
+    text-align: center;
+    padding: 22px 108px 26px 108px;
+}
+
+.qty-input {
+    height: 16px;
+    width: 30px;
+    font-size: 12px;
+    padding: 0px;
+    font-size: 16px;
+    text-align:right;
+}
+
+.ticker-text-container, .current-price-container, .open-price-container, .qty-container, .total-price-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+
+
+#green-increase{
+    color: green
+}
+#gray-neutral{
+    color: gray;
+}
+#red-decrease {
+    color: red;
+}
+
+
+.error_display {
+    position: absolute;
+    display: none;
+    background-color: #ee9ca7;     
+    width: auto;    
+    padding: 8px;
+    color: white;
+    margin-left: 15px;
+}
+
+.error_display:before {
+    position: absolute;
+    content: '';
+    transform: rotate(-90deg);
+    top: 1px;
+    border-width: 10px;
+    border-style: solid;
+    border-color: rgba(255,255,255,0) rgba(255,255,255,0) #ee9ca7 rgba(255,255,255,0); 
+    left: -20px;    
+}
+
+.error-qty, .error-ticker {
+    box-shadow: 0 0 2px #ee9ca7;
+    border: 1px solid #ee9ca7;
+}
+
+.input-qty-container:hover > .error_display {
+    display: inline;
+}
+
+.error_display_ticker {
+    position: absolute;
+    display: none;
+    background-color: #ee9ca7;     
+    width: auto;    
+    padding: 8px;
+    color: white;
+    margin-top: 42px;
+}
+
+.error_display_ticker:before {
+    position: absolute;
+    content: '';
+    transform: rotate(0deg);
+    top: -20px;
+    border-width: 10px;
+    border-style: solid;
+    border-color: rgba(255,255,255,0) rgba(255,255,255,0) #ee9ca7 rgba(255,255,255,0);     
+}
+
+.ticker-input-field {
+    display: flex
+}
+
+.ticker-input-field:hover > .error_display_ticker {
+    display: inline
+}

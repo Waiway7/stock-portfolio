@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>StockPortfolio</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= javascript_include_tag 'application' %>
+    <% if logged? %>
+    <script>
+        window.currentUser = {
+          "id": <%= current_user.id %>,
+          "username": "<%= current_user.username %>",
+        };
+    </script>
+    <% end %>
+  </head>
+
+  <body>
+    <%= yield %>
+  </body>
+</html>

@@ -1,0 +1,10 @@
+.date-container {
+    display: flex;
+    margin-top: 5px;
+}
+
+.header-page {
+    font-size: 28px;
+    margin-top: -9px;
+    margin-left: -30px;
+}

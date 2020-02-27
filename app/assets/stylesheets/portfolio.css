@@ -1,0 +1,106 @@
+.portfolio-container {
+    min-height: 57.5%;
+    background-color: #fcf5f6;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-bottom: 48px;
+}
+
+.stock-container-ul {
+    display: block;    
+    margin: 0 auto;
+    min-height: 300px;
+    width: 600px;
+}
+
+.stock-list {
+    display: flex;
+    height: 100px;
+    justify-content: space-between;
+    background-color: white;
+    border: 1px solid #fae1e5;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    padding: 0 20px 0 20px; 
+}
+
+.stock-ticker, .shares-text-container {
+    display: flex;
+}
+
+
+.stock-hyphen{
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.stock-shares-div-container {
+    margin-top: 20px;
+}
+
+.shares-text-container{
+    margin-top: 5px;
+}
+
+.price-open-current-container {
+    margin-top: 30px;
+}
+
+.open-price-text-container, .current-price-text-container{
+    display:flex;
+}
+.open-price-text-container {
+    margin-bottom: 5px;
+}
+
+.green {
+    color: green
+}
+.gray {
+    color: gray;
+}
+
+.red {
+    color: red;
+}
+
+.links-container {
+    display: flex;
+    margin-right: 25px;
+    min-width: 400px;
+}
+.tabs {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 10px;
+}
+.user-welcome {
+    display: flex;
+    margin-left: 100px;
+    min-width: 400px;
+
+}
+
+.straight-line {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.buy-shares:hover, .portfolio:hover, .transactions:hover{
+    color: #ee9ca7;
+}
+
+.logout-btn:hover {
+    color: #ee9ca7;
+}
+
+.logout-btn {
+    cursor: pointer;
+}
+
+.error-handling {
+    align-items: center
+}
+
+
+
