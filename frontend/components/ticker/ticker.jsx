@@ -4,7 +4,7 @@ import {withRouter, Link} from 'react-router-dom';
 class Ticker extends React.Component{
     constructor(props){
         super(props)
-        this.state = {ticker: "", qty: "", totalPrice: 0, trans: "buy"}
+        this.state = {ticker: "", qty: "", totalPrice: 0, trans: "buy"};
     }
     handleSubmit(e){
         e.preventDefault();
@@ -30,6 +30,7 @@ class Ticker extends React.Component{
         else {
             this.setState({"error_display": "Invalid Quantity"})
         }
+        this.props.fetchOwnStockInfo();
     }
 
     componentDidMount(){

@@ -55,10 +55,9 @@ class Sell extends React.Component {
             this.props.createTransaction(this.state)
             this.props.updateUserInfo(this.props.session.id.id, formData).then(() => {
                 window.alert("Your transaction was safely processed.")
-                this.setState({"total_price": 0, "qty": ""});
+                this.setState({"ticker": "", "total_price": 0, "qty": ""});
             }, error => {window.alert("Transaction was unsucessful please try again.")})
         }
-        this.props.fetchAllStocks();
     }
 
     selectTicker(){

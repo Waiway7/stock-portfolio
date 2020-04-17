@@ -1588,7 +1588,7 @@ function (_React$Component) {
       var obj = "";
       var equity = 0;
 
-      if (Object.keys(this.props.tickers).length !== 0 && Object.keys(this.props.stocks).length !== 0) {
+      if (Object.keys(this.props.tickers).length === Object.keys(this.props.stocks).length) {
         obj = Object.keys(this.props.stocks).map(function (stock_id, i) {
           var stock = _this.props.stocks[stock_id];
           var ticker = _this.props.tickers[stock_id];
@@ -1887,6 +1887,7 @@ function (_React$Component) {
           window.alert("Your transaction was safely processed.");
 
           _this2.setState({
+            "ticker": "",
             "total_price": 0,
             "qty": ""
           });
@@ -1894,8 +1895,6 @@ function (_React$Component) {
           window.alert("Transaction was unsucessful please try again.");
         });
       }
-
-      this.props.fetchAllStocks();
     }
   }, {
     key: "selectTicker",
@@ -2179,6 +2178,8 @@ function (_React$Component) {
           "error_display": "Invalid Quantity"
         });
       }
+
+      this.props.fetchOwnStockInfo();
     }
   }, {
     key: "componentDidMount",
@@ -2421,6 +2422,9 @@ var mdp = function mdp(dispatch) {
     },
     logout: function logout() {
       return dispatch(Object(_actions_session_actions__WEBPACK_IMPORTED_MODULE_2__["logout"])());
+    },
+    fetchOwnStockInfo: function fetchOwnStockInfo() {
+      return dispatch(Object(_actions_stock_actions__WEBPACK_IMPORTED_MODULE_3__["fetchAllOwnedStocks"])());
     },
     fetchUser: function fetchUser(id) {
       return dispatch(Object(_actions_user_actions__WEBPACK_IMPORTED_MODULE_4__["fetchUser"])(id));

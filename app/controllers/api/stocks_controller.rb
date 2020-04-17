@@ -2,7 +2,7 @@ class Api::StocksController < ApplicationController
 
 
     def index 
-        @stocks = Stock.all.where(user_id: current_user.id).where("shares > 0")
+        @stocks = Stock.all.where(user_id: current_user.id)
         render "api/stocks/index"
     end
 

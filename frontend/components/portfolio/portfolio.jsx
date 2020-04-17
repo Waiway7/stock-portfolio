@@ -24,7 +24,7 @@ class Portfolio extends React.Component {
     render(){
         let obj = "";
         let equity = 0;
-        if (Object.keys(this.props.tickers).length !==  0 && Object.keys(this.props.stocks).length !== 0){
+        if (Object.keys(this.props.tickers).length === Object.keys(this.props.stocks).length){
             obj = Object.keys(this.props.stocks).map((stock_id, i) => {
                 const stock = this.props.stocks[stock_id]
                 const ticker = this.props.tickers[stock_id]
