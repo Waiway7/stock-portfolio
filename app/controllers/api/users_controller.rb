@@ -9,9 +9,6 @@ class Api::UsersController < ApplicationController
     def show
         @user = User.find(params[:id])
         render "api/users/show"
-        # else 
-        #     render ["User does not exist! Please try again."], status: 404
-        # end
     end
 
     def create 
@@ -28,12 +25,12 @@ class Api::UsersController < ApplicationController
         @user = current_user
         
         if (params[:trans] == "sell")
-            if (current_user.update(balance: current_user.balance + params[:total_price].to_f, equity: current_user.equity - params[:total_price].to_f))
+            if (current_user.update(balance: current_user.balance + params[:total_price].to_f))
                 render "api/users/show"
             end
         else
             if (current_user.balance > params[:total_price].to_f)
-                if (current_user.update(balance: current_user.balance - params[:total_price].to_f, equity: current_user.equity + params[:total_price].to_f))
+                if (current_user.update(balance: current_user.balance - params[:total_price].to_f))
                     render "api/users/show"
                 end
             else
@@ -46,6 +43,7 @@ class Api::UsersController < ApplicationController
     def user_params
         params.require(:user).permit(:email, :password, :username, :total_price, :trans)
     end
+
     def balance_params
         params.require(:total_price).permit(:totalPrice)
     end

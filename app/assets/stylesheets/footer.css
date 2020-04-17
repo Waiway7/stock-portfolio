@@ -1,0 +1,43 @@
+.footer-container {
+    height: 32px;
+    width: 100%;
+    border-top: 1px solid black;
+    background-color: #b990cc;
+}
+
+.footer {
+    width: 1280px;
+    margin: 0 auto;
+    display: flex;
+}
+
+.footer-logo {
+    padding: 8px;
+    display: flex;
+}
+
+.footer-txt {
+    color: white;
+}
+
+.outer-links {
+    padding-top: 3px;
+    display: flex;
+    margin-left: auto;
+    margin-right: 8px;
+}
+
+.target-link {
+    font-size: 26px;
+    margin-right: 8px;
+    color: black;
+}
+
+.tab-link {
+    text-decoration: none;
+    color: black;
+}
+
+.target-link:hover{
+    color: white;
+}

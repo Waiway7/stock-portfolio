@@ -12,7 +12,7 @@ const stockReducer = (state = {}, action) => {
         case RECEIVE_ALL_STOCKS:
             return merge({}, action.stocks);
         case RECEIVE_STOCK:
-            return ({}, state, {[action.stock.id]: action.stock});
+            return merge({}, state, {[action.stock.id]: action.stock});
         case LOGOUT_USER:
             return _nullSession
         default:

@@ -5,7 +5,6 @@
 #  id              :bigint           not null, primary key
 #  balance         :float            default("5000.0")
 #  email           :string           not null
-#  equity          :float            default("0.0")
 #  password_digest :string           not null
 #  session_token   :string           not null
 #  username        :string           not null
@@ -16,7 +15,6 @@
 #
 #  index_users_on_balance        (balance)
 #  index_users_on_email          (email) UNIQUE
-#  index_users_on_equity         (equity)
 #  index_users_on_session_token  (session_token) UNIQUE
 #  index_users_on_username       (username) UNIQUE
 #
@@ -26,7 +24,6 @@ class User < ApplicationRecord
     validates :email, presence: true, format: {with: VALID_EMAIL_REGEX}, uniqueness: {case_sensitive: false}
     validates :password, length: {minimum: 6}, allow_nil: true
     validates :balance, presence: true
-    validates :equity, presence: true
 
     has_many :transactions,
     class_name: :Transaction,

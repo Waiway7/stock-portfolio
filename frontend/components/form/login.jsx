@@ -5,7 +5,7 @@ class Login extends React.Component{
     constructor(props){
         super(props)
         this.state = {   
-                        username: '', 
+                        email: '', 
                         password: '',
                     }
     }
@@ -87,8 +87,10 @@ class Login extends React.Component{
 
     render(){
        return(
-            <div className='form-container'>
+           <div className="landpage-container">
+            <div className="content-container">
                 {this.loginInput()}
+            </div>
             </div>
         )
     }       

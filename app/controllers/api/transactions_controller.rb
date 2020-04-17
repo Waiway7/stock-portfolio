@@ -8,8 +8,8 @@ class Api::TransactionsController < ApplicationController
 
     def create
         data = params[:transaction]
-        
-        if (current_user.balance > data[:current_price].to_f * data[:qty].to_i || data[:trans] == "sell")
+        @stock = Stock.where(ticker: data[:ticker], user_id: current_user.id)
+        if (current_user.balance > data[:current_price].to_f * data[:qty].to_i || data[:trans] == "sell" && @stock.shares - data[:qty].to_i >= 0 )
             @transaction = Transaction.new(company: data[:company], ticker: data[:ticker], amount: data[:qty], 
                                          user_id: current_user.id, price: data[:current_price], action: data[:trans])
             if (@transaction.save)

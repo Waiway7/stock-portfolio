@@ -1,29 +1,28 @@
 import React from 'react';
-import {Route, Switch} from 'react-router-dom';
+import {Switch, Route} from 'react-router-dom';
 import SignUp from './form/signup_container';
 import { AuthRoute, ProtectedRoute } from '../util/route_util';
 import Login from './form/login_container';
-import Ticker from './ticker/ticker_container'
-import Portfolio from './portfolio/portfolio_container'
-import Transaction from './transaction/transaction_container'
-import Sell from './sell/sell_container'
+import Header from './banner/header_container'
+import Footer from './footer/footer'
+import Landpage from './landpage/landpage_container'
+
 
 const App = () => {    
     return (
+       
         <div className="app">
-            <div className="header">
-                <div className="header-txt">Ditto!Finance</div>
-            </div>
+            {/* <AuthRoute path='/' component={HeaderSign}/> */}
+            <Route path='/' component={Header} />
             <Switch>
                 <AuthRoute exact path='/' component={SignUp}/>
                 <AuthRoute exact path='/login' component={Login}/>
-                <ProtectedRoute exact path='/ticker' component={Ticker}/>
-                <ProtectedRoute exact path='/portfolio' component={Portfolio}/>
-                <ProtectedRoute exact path="/transactions" component={Transaction}/>
-                <ProtectedRoute exact path="/sell" component={Sell}/>
+                <ProtectedRoute path='/portfolio' component={Landpage}/>
+                <ProtectedRoute path="/transactions" component={Landpage}/>
             </Switch>
-           
+            <Footer component={Footer}/>
         </div>
+      
     )    
 }
 

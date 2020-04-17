@@ -8,8 +8,10 @@ class Ticker extends React.Component{
     }
     handleSubmit(e){
         e.preventDefault();
-        this.props.fetchStock(this.state.ticker)
-        this.setState({"current_price": this.props.tickers.current_price, "company": this.props.tickers.company, "ticker": this.props.tickers.symbol})
+        this.props.fetchStock(this.state.ticker).then( (data) => {
+            this.setState({"current_price": data.stock.current_price, "company": data.stock.company, "ticker": data.stock.symbol, qty: "", totalPrice: 0.00})
+        })
+        // this.setState({"current_price": this.props.tickers.current_price, "company": this.props.tickers.company, "ticker": this.props.tickers.symbol})
     }
 
     handleBuy(e){
@@ -21,20 +23,19 @@ class Ticker extends React.Component{
             this.props.createStock(this.state)
             this.props.createTransaction(this.state)
             this.props.updateUserInfo(this.props.session.id.id, formData).then(() => {
+                this.setState({ticker: "", qty: "", totalPrice: 0})
                 window.alert("Your transaction was safely processed.")
             }, error => {window.alert("Transaction was unsucessful please try again.")})
         }
         else {
             this.setState({"error_display": "Invalid Quantity"})
         }
-
     }
+
     componentDidMount(){
         this.props.resetErrors()
-        this.props.fetchUser(this.props.session.id.id)
-        if (this.props.tickers.current_price){
-            this.props.fetchStock(this.props.tickers.symbol)
-        }
+        this.props.fetchAllStocks();
+        
     }
 
     componentDidUpdate(prevProps){
@@ -57,7 +58,7 @@ class Ticker extends React.Component{
                         return this.setState({[field]: e.target.value, "error": "Invalid Quantity"})
                     }
                     else {
-                        return this.setState({ [field]: e.target.value, "totalPrice": (Number(e.target.value) * parseFloat(this.props.tickers["current_price"]).toFixed(2)), "error": null});
+                        return this.setState({ [field]: e.target.value, "totalPrice": this.toFixed((Number(e.target.value) * this.props.tickers["current_price"]), 2), "error": null});
                     }
                 }
                 else{
@@ -74,9 +75,15 @@ class Ticker extends React.Component{
         this.props.resetErrors()
     }
 
+    toFixed(number, decimals) {
+        var x = Math.pow(10, Number(decimals) + 1);
+        return (Number(number) + (1 / x)).toFixed(decimals)
+    }
+
     tickerContainer(){
-        const openPrice = `${'$' + parseFloat(this.props.tickers["open_price"]).toFixed(2)}`;
-        const currentPrice = `${'$' + parseFloat(this.props.tickers["current_price"]).toFixed(2)}`;
+        const openPrice = this.props.tickers["open_price"] === null ? this.toFixed(this.props.tickers["previous_price"], 2) : this.toFixed(this.props.tickers["open_price"], 2);
+        const priceTitle = this.props.tickers["open_price"] !== null ? "Open Price (USD)" : "Previous Close Price (USD)";
+        const currentPrice = this.toFixed(this.props.tickers["current_price"], 2);
         let change = currentPrice > openPrice ? "green-increase" : "red-decrease";
         change = currentPrice === openPrice ? "gray-neutral" : change;
         const toolTipError = this.state.error_display !== undefined ? "error_display" : "";
@@ -92,11 +99,11 @@ class Ticker extends React.Component{
                     </div>
                     <div className="current-price-container">
                         <div className="current-price-text text-quote">Current Price (USD)</div>
-                        <div className="current-price-number text-quote" id={change}>{currentPrice}</div>
+                        <div className="current-price-number text-quote" id={change}>${currentPrice}</div>
                     </div>
                     <div className="open-price-container">
-                        <div className="open-price-text text-quote">Open Price (USD)</div>
-                        <div className="open-price-number text-quote">{openPrice}</div>
+                        <div className="open-price-text text-quote">{priceTitle}</div>
+                        <div className="open-price-number text-quote">${openPrice}</div>
                     </div>
                     <div className="qty-container">
                         <div className="qty-text">Quantity</div>
@@ -113,7 +120,7 @@ class Ticker extends React.Component{
                     </div>
                     <div className="total-price-container">
                         <div className="total-price-text text-quote">Total Price (USD)</div>
-                        <div className="total-price-number text-quote">{this.state.totalPrice}</div>
+                        <div className="total-price-number text-quote">${this.state.totalPrice}</div>
                     </div>
                     <form className="buy-stock" onSubmit={this.handleBuy.bind(this)}>
                         <input className="submit-tickers" type="submit" value="Buy"></input>
@@ -128,33 +135,13 @@ class Ticker extends React.Component{
         const errorDisplay = lengthError > 0 && this.props.error.responseJSON['error']  ? this.props.error.responseJSON['error'] : "";
 
 
-        const balance = this.props.user ? parseFloat(this.props.user.balance).toFixed(2) : "";
-        const equity = this.props.user ? parseFloat(this.props.user.equity).toFixed(2) : "";
+        const balance = this.props.user ? this.toFixed(this.props.user.balance, 2) : "";
         const tickerContainer = this.props.tickers["symbol"] !== undefined ? this.tickerContainer() : "";
         return(
             
             <div className="ticker-container">
-                <div className="tabs">
                 <div className="user-welcome">
-                        <div className="user-name">User: {this.props.session.id.username}</div>
-                        <div className="straight-line">|</div>
-                        <div className="user-name">Balance: ${balance}</div>
-                        <div className="straight-line">|</div>
-                        <div className="user-name">Equity: ${equity}</div>
-                    </div>
-                    <div className="header-page">Buy Shares</div>
-                    <div className="links-container">
-                        <Link style={{ textDecoration: 'none', color: 'black' }} to="/ticker"><div className="buy-shares">Buy Shares</div></Link>
-                        <div className="straight-line">|</div>
-                        <Link style={{ textDecoration: 'none', color: 'black' }} to="/sell"><div className="transactions">Sell Shares</div></Link>
-                        <div className="straight-line">|</div>
-                        <Link style={{ textDecoration: 'none', color: 'black' }} to="/portfolio"><div className="portfolio">Portfolio</div></Link>
-                        <div className="straight-line">|</div>
-                        <Link style={{ textDecoration: 'none', color: 'black' }} to="/transactions"><div className="transactions">Transactions</div></Link>
-                        <div className="straight-line">|</div>
-                
-                        <div className="logout-btn" onClick={() => this.props.logout()}>Logout</div> 
-                    </div>
+                    <div className="header-page">Buy Shares (${balance})</div>
                 </div>
         
                 <div className="ticker-form-container">

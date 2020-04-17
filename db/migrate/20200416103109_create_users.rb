@@ -6,7 +6,6 @@ class CreateUsers < ActiveRecord::Migration[5.2]
       t.string :password_digest, null: false
       t.string :session_token, null: false
 
-      t.float :equity, default: 0.0
       t.float :balance, default: 5000.00
       t.timestamps
     end
@@ -14,7 +13,6 @@ class CreateUsers < ActiveRecord::Migration[5.2]
     add_index :users, :username, unique: true
     add_index :users, :email, unique: true
     add_index :users, :session_token, unique: true
-    add_index :users, :equity
     add_index :users, :balance
   end
 end

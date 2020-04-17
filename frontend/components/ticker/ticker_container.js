@@ -8,7 +8,7 @@ import {createTransaction} from "../../actions/transaction_actions"
 
 const msp = (state) => {
     return {
-        tickers: state.entities.tickers,
+        tickers: state.entities.apiTicker,
         session: state.session,
         user: state.entities.user,
         error: state.backend.error

@@ -18,11 +18,16 @@ class Sell extends React.Component {
         this.props.fetchUser(this.props.session.id.id);
     }
 
-    componentDidUpdate(prevProps){
-        if (prevProps.tickers !== this.props.tickers){
-            this.props.fetchAllStocks();
-            this.props.fetchUser(this.props.session.id.id);
-        }
+    // componentDidUpdate(prevProps){
+    //     if (prevProps.tickers !== this.props.tickers){
+    //         this.props.fetchAllStocks();
+    //         this.props.fetchUser(this.props.session.id.id);
+    //     }
+    // }
+
+    toFixed(number, decimals) {
+        var x = Math.pow(10, Number(decimals) + 1);
+        return (Number(number) + (1 / x)).toFixed(decimals)
     }
    
     handleStockChange(){
@@ -32,17 +37,17 @@ class Sell extends React.Component {
     }
 
     handleQuantityChange(){
-        this.setState({"current_price": this.props.tickers.current_price, 
+        this.setState({"current_price": this.props.tickers[this.state.id].current_price, 
                         "company": this.props.stocks[this.state.id].company,
                         "qty": Number(event.target.value), 
-                        "total_price": (Number(event.target.value) * parseFloat(this.props.tickers.current_price)),
+                        "total_price": (this.toFixed(Number(event.target.value) * this.props.tickers[this.state.id].current_price, 2)),
                         "symbol": this.props.tickers.symbol
                     })
     }
 
     handleSubmit(e){
         e.preventDefault();
-        if (Object.keys(this.props.stocks).length > 0 && this.props.stocks[this.state.id].shares > 0){
+        if (Object.keys(this.props.stocks).length > 0){
             let formData = new FormData()
             formData.append('total_price', this.state.total_price)
             formData.append('trans', this.state.trans)
@@ -50,8 +55,10 @@ class Sell extends React.Component {
             this.props.createTransaction(this.state)
             this.props.updateUserInfo(this.props.session.id.id, formData).then(() => {
                 window.alert("Your transaction was safely processed.")
+                this.setState({"total_price": 0, "qty": ""});
             }, error => {window.alert("Transaction was unsucessful please try again.")})
         }
+        this.props.fetchAllStocks();
     }
 
     selectTicker(){
@@ -59,9 +66,12 @@ class Sell extends React.Component {
         if (Object.keys(this.props.stocks).length > 0){
             ticker = Object.keys(this.props.stocks).map( (stock_id, idx) => {
                 const stock = this.props.stocks[stock_id]
-                return (
-                    <option key={`stock-sell${idx}`} className={stock.ticker} value={stock.ticker} id={stock_id}>{stock.ticker}</option>
-                )
+                if (stock.shares > 0){
+                    return (
+                        <option key={`stock-sell${idx}`} className={stock.ticker} value={stock.ticker} id={stock_id}>{stock.ticker}</option>
+                    )
+                }
+                
             })
         }
         return ticker
@@ -69,7 +79,7 @@ class Sell extends React.Component {
     
     selectQuantity(){
         let quantity = 0;
-        if (this.state.id !== undefined){
+        if (this.state.id !== undefined || this.props.stocks[this.state.id] !== undefined){
             quantity = [];
             for (let i = 1; i <= this.props.stocks[this.state.id].shares; i++){
             const option = <option key={`qty-stock-owned-${i}`} value={`${i}`}>{i}</option>
@@ -81,31 +91,17 @@ class Sell extends React.Component {
     }
 
     render () {
-        const balance = this.props.user ? parseFloat(this.props.user.balance).toFixed(2) : "";
-        const equity = this.props.user ? parseFloat(this.props.user.equity).toFixed(2) : "";
-        const currentPrice = this.props.tickers.current_price !== undefined ? parseFloat(this.props.tickers.current_price).toFixed(2) : 0.00.toFixed(2);
+        const balance = this.props.user ? this.toFixed(this.props.user.balance, 2) : "";
+        const currentPrice = this.props.tickers[this.state.id] !== undefined ? this.toFixed(this.props.tickers[this.state.id].current_price,2) : 0.00.toFixed(2);
+        const openPrice = this.props.tickers["open_price"] === null ? this.toFixed(this.props.tickers["previous_price"], 2) : this.toFixed(this.props.tickers["open_price"], 2);
+        let change = currentPrice > openPrice ? "green-increase" : "red-decrease";
+        change = currentPrice === openPrice ? "gray-neutral" : change;
+        change = this.state.ticker === '' ? '' : change;
+
         return (
-            <div className="portfolio-container">
-            <div className="tabs">
-                <div className="user-welcome">
-                    <div className="user-name">User: {this.props.session.id.username}</div>
-                    <div className="straight-line">|</div>
-                    <div className="user-name">Balance: ${balance}</div>
-                    <div className="straight-line">|</div>
-                    <div className="user-name">Equity: ${equity}</div>
-                </div>
-                <div className="header-page">Sell Shares</div>
-                <div className="links-container">
-                    <Link style={{ textDecoration: 'none', color: 'black' }} to="/ticker"><div className="buy-shares">Buy Shares</div></Link>
-                    <div className="straight-line">|</div>
-                    <Link style={{ textDecoration: 'none', color: 'black' }} to="/sell"><div className="transactions">Sell Shares</div></Link>
-                    <div className="straight-line">|</div>
-                    <Link style={{ textDecoration: 'none', color: 'black' }} to="/portfolio"><div className="portfolio">Portfolio</div></Link>
-                    <div className="straight-line">|</div>
-                    <Link style={{ textDecoration: 'none', color: 'black' }} to="/transactions"><div className="transactions">Transactions</div></Link>
-                    <div className="straight-line">|</div>
-                    <div className="logout-btn" onClick={() => this.props.logout()}>Logout</div> 
-                </div>
+            <div className="ticker-container">
+            <div className="user-welcome">
+                <div className="header-page">Sell Shares (${balance})</div>
             </div>
             <div className="owned-stock-container">
                 <form onSubmit={this.handleSubmit.bind(this)}>
@@ -130,7 +126,7 @@ class Sell extends React.Component {
                     <input type="hidden" value={this.state.total_price}></input>
                     <div className="owned-stock-input-container">
                         <div>Current Value</div>
-                        <div className="current-price-text-sell">${currentPrice}</div>
+                        <div className="current-price-text-sell" id={change}>${currentPrice}</div>
                     </div>
                     <div className="owned-stock-input-container">
                         <div>Total Value</div> 
@@ -142,8 +138,8 @@ class Sell extends React.Component {
                     </div>
                 </form>
             </div>
+            </div>
             
-        </div>
         )
     }
 }

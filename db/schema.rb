@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_27_050924) do
+ActiveRecord::Schema.define(version: 2020_04_16_103302) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,7 +18,6 @@ ActiveRecord::Schema.define(version: 2020_02_27_050924) do
   create_table "stocks", force: :cascade do |t|
     t.string "ticker", null: false
     t.string "company", null: false
-    t.float "total_price", null: false
     t.integer "shares", null: false
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
@@ -26,7 +25,6 @@ ActiveRecord::Schema.define(version: 2020_02_27_050924) do
     t.index ["company"], name: "index_stocks_on_company"
     t.index ["shares"], name: "index_stocks_on_shares"
     t.index ["ticker"], name: "index_stocks_on_ticker"
-    t.index ["total_price"], name: "index_stocks_on_total_price"
     t.index ["user_id"], name: "index_stocks_on_user_id"
   end
 
@@ -51,13 +49,11 @@ ActiveRecord::Schema.define(version: 2020_02_27_050924) do
     t.string "email", null: false
     t.string "password_digest", null: false
     t.string "session_token", null: false
-    t.float "equity", default: 0.0
     t.float "balance", default: 5000.0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["balance"], name: "index_users_on_balance"
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["equity"], name: "index_users_on_equity"
     t.index ["session_token"], name: "index_users_on_session_token", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true
   end

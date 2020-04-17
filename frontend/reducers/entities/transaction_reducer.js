@@ -11,7 +11,7 @@ const transactionReducer = (state = {}, action) => {
         case RECEIVE_ALL_TRANSACTIONS:
             return merge({}, action.transactions);
         case RECEIVE_TRANSACTION:
-            return ({}, state, {[action.transaction.id]: action.transaction});
+            return merge({}, state, {[action.transaction.id]: action.transaction});
         case LOGOUT_USER:
             return _nullSession
         default:

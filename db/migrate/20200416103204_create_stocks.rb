@@ -3,16 +3,13 @@ class CreateStocks < ActiveRecord::Migration[5.2]
     create_table :stocks do |t|
       t.string :ticker, null: false
       t.string :company, null: false
-      t.float :total_price, null: false
       t.integer :shares, null: false
       t.integer :user_id, null: false
 
       t.timestamps
     end
-
     add_index :stocks, :ticker
     add_index :stocks, :company
-    add_index :stocks, :total_price
     add_index :stocks, :shares
     add_index :stocks, :user_id
   end

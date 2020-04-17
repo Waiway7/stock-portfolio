@@ -92,7 +92,7 @@ class SignUp extends React.Component{
                     </div>
                     <div className="input-container">
                     <input className="submit-form" type="submit" value={this.props.formType}/>
-                    </div>
+                                        </div>
                     <div className="login-link-container">
                         <div className="link-center">
                         <div className="login-text">Have an Account? </div>
@@ -102,6 +102,7 @@ class SignUp extends React.Component{
                         </div>
                     </div>
                     </form>
+
                 </div>
         )
     }
@@ -109,8 +110,11 @@ class SignUp extends React.Component{
 
     render(){
        return(
-            <div className='form-container'>
+           <div className="landpage-container">
+            <div className="content-container">
                 {this.signupInput()}
+            </div>
+            
             </div>
         )
     }       
