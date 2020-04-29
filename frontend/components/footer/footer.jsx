@@ -23,7 +23,7 @@ class Header extends React.Component{
                         </div>
                     </div>
                     <div className="outer-links">
-                            <a textDecoration="none" target="_blank" href="https://github.com/Waiway7/CloudNine" className="target-link"><i className="fab fa-github github"></i></a>
+                            <a textDecoration="none" target="_blank" href="https://github.com/Waiway7/stock-portfolio" className="target-link"><i className="fab fa-github github"></i></a>
                             <a textDecoration="none" target="_blank" href="https://linkedin.com/in/wai-chun-chan-718035117/" className="target-link"><i className="fab fa-linkedin github"></i></a>
                             <a textDecoration="none" target="_blank" href="https://angel.co/wai-c-chan" className="target-link"><i className="fab fa-angellist github"></i></a>
                             <a textDecoration="none" target="_blank" href="https://waiway7.github.io/" className="target-link"> <i className="fas fa-briefcase"></i></a>
